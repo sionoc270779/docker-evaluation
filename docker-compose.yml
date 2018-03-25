@@ -10,8 +10,9 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "80:80"
+      - "8080:3000"
+    command: /usr/bin/nodejs /home/hello-world/app.js
     networks:
-      - webnet
+      - webnet 
 networks:
   webnet:
