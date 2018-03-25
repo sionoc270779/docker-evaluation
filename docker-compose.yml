@@ -2,10 +2,10 @@ version: "3"
 services:
   web: # Name of the service that will run i.e. web, rename accordingly
     # replace username/repo:tag with your name and image details - this will issue docker pull
-    image:  username/repo:tag
+    image:  chuckwired/port-tutorial:latest
     deploy:
       # Number of instances to replicate
-      replicas: 1
+      replicas: 3
       # Always restart on any failure asap
       restart_policy:
         condition: on-failure
