@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Use this script to deploy the docker image on the local machine.
-
+ 
 # Swarm manager allows the service to be distributed to all machines inside the cluster, this gives better scalability etc. 
+# --advertise-addr only needed if multiple NIC's or running docker out of virtual box which creates a virtual NIC.
+# But lets always use the docker machine ip so even if you got 1 NIC or multiple it will always get the correct ip.
 printf "Initializing Swarm Manager\n"
-# --advertise-addr only needed if multiple NIC's or running docker out of virtual box which creates a virtual NIC
-docker swarm init --advertise-addr 192.168.99.100
+dockerMachineIP=$(docker-machine ip)
+docker swarm init --advertise-addr $dockerMachineIP
 
 printf "Deploying Full Stack using compose file - Named port-tutorial\n"
 docker stack deploy -c docker-compose.yml port-tutorial
