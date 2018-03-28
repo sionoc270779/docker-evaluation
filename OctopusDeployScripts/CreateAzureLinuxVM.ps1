@@ -20,6 +20,9 @@ $userName='azuretestuser'
 $securePassword = ConvertTo-SecureString " " -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential ($userName, $securePassword)
 
+# Select right user profile 
+Select-AzureRmProfile -Path $azureProfilePath
+
 # Check existance of the VM - if not we need to create
 $azureVM = Get-AzureVM -ServiceName $vmName
 if (($azureVM.Count -eq 0) -OR ($azureVM -eq $Null) -Or ($azureVM -eq ""))
