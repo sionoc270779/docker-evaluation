@@ -86,8 +86,17 @@ if (($azureVM.Count -eq 0) -OR ($azureVM -eq $Null) -Or ($azureVM -eq ""))
 	# Ensure the VM is up and running
 	While ($vmUpAndRunning -eq $False)
 	{
+		$vm = Get-AzureRmVM -Name $vmName -ResourceGroupName $azureResourceGroup -Status
+		$thePWRState = $vm.Statuses | Where-object {$_.Code -Match "^PowerState"}
+		if (($thePWRState.DisplayStatus -Match "^VM running$") -eq $True)
+		{
+			$vmUpAndRunning = $True
+		}
+		else
+		{
+			Start-Sleep 10
+		}
 	}
-}
 else
 {
 	Write-Output "Azure VM - ${vmName} Already Exists : Skipping"
