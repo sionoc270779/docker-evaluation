@@ -57,9 +57,15 @@ if (($azureVM.Count -eq 0) -OR ($azureVM -eq $Null) -Or ($azureVM -eq ""))
 
 	# Create an inbound network security group rule for port 80
 	$nsgRuleWeb = New-AzureRmNetworkSecurityRuleConfig -Name "sionTestNetworkSecurityGroupRuleWWW"  -Protocol Tcp -Direction Inbound -Priority 1001 -SourceAddressPrefix * -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 80 -Access Allow
+	
+	# Create an inbound network security group rule for port 8080
+	$nsgRuleVIS = New-AzureRmNetworkSecurityRuleConfig -Name "sionTestNetworkSecurityGroupRuleVIS"  -Protocol Tcp -Direction Inbound -Priority 999 -SourceAddressPrefix * -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 8080 -Access Allow
+
+	# Create an inbound network security group rule for port 8081
+	$nsgRuleHW = New-AzureRmNetworkSecurityRuleConfig -Name "sionTestNetworkSecurityGroupRuleHW"  -Protocol Tcp -Direction Inbound -Priority 998 -SourceAddressPrefix * -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 8081 -Access Allow
 
 	# Create a network security group
-	$nsg = New-AzureRmNetworkSecurityGroup -ResourceGroupName $azureResourceGroup -Location $azureLocation -Name "sionTestNetworkSecurityGroup" -SecurityRules $nsgRuleSSH,$nsgRuleWeb
+	$nsg = New-AzureRmNetworkSecurityGroup -ResourceGroupName $azureResourceGroup -Location $azureLocation -Name "sionTestNetworkSecurityGroup" -SecurityRules $nsgRuleSSH,$nsgRuleWeb,$nsgRuleVIS,$nsgRuleHW
 	
 	# Create a virtual network card and associate it with public IP address and NSG
 	$nic = New-AzureRmNetworkInterface -Name sionTestNic -ResourceGroupName $azureResourceGroup -Location $azureLocation -SubnetId $vnet.Subnets[0].Id -PublicIpAddressId $pip.Id -NetworkSecurityGroupId $nsg.Id 
