@@ -106,6 +106,7 @@ if (($azureVM.Count -eq 0) -OR ($azureVM -eq $Null) -Or ($azureVM -eq ""))
 			Start-Sleep 10
 		}
 	}
+    }
 else
 {
 	Write-Output "Azure VM - ${vmName} Already Exists : Skipping"
